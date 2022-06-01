@@ -1,33 +1,117 @@
+<!DOCTYPE html>
 <html>
-<body>
 
-  <script src="./index.js"></script>
+  <head>
+    <meta charset="utf-8">
+    <base href="/">
+    <title>Building UI using JavaScript</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="site.css">    
+  
+  </head>
 
-  <div class="container">
-   
-    <input type="text" id="datepicker" />
+<body class="container">
 
-    <p>Bootstrap Buttons:</p>   
-      <button type="button" class="btn btn-primary">Primary</button>
-      <button type="button" class="btn btn-secondary">Secondary</button>
-      <button type="button" class="btn btn-success">Success</button>
-      <button type="button" class="btn btn-danger">Danger</button>
-      <button type="button" class="btn btn-warning">Warning</button>
-      <button type="button" class="btn btn-info">Info</button>
-      <button type="button" class="btn btn-light">Light</button>
-      <button type="button" class="btn btn-dark">Dark</button>   
+  
+     
+    <!-- PAGE HEADING -->
+    <section class="hero py-3 flex-grow-1">
+        <div class="container py-4">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h1 class="display-4">AWS Cognito Demo</h1>
+                    <p class="fst-italic text-muted">This application is demonstrating various technologies. Powered by <a class="text-primary" href="https://hexquote.com/" target="_blank">hexquote</a></p>
+                    <hr />
+                    <div>
+                    <button id="lnkTest" class="btn btn-primary">Test</button>
+                    <a href="https://accounting.awsclouddemos.com" class="btn btn-primary" target="_blank">Accounting Application</a>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </section>
 
-    <p>Font Awsome Icon:</p>
-    <i class="far fa-address-card"></i>
-
-    <p>Bootstrap JS</p>
-    <button type="button" class="btn btn-lg btn-danger" 
-    data-toggle="popover" title="Popover title" 
-    data-content="And here's some amazing content. It's very engaging. Right?">
-    Click to toggle popover
-  </button>
-
-  </div>
  
+   <!-- Site footer -->
+   <footer class="border bg-light">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-12 col-md-6">
+          <h6>About</h6>
+          <p class="text-justify">hexquote.com <i>AWS Cloud Demos</i> is an initiative to help Managers, Programmers and Companies with technology services and training. 
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+
+
+        <div class="container">
+        <div class="row">
+          
+          <div class="col-sm">
+            <h6>Categories</h6>
+              <ul class="footer-links">
+                <li><a>Training</a></li>
+                <li><a>Archiecture</a></li>
+                <li><a>Cloud</a></li>
+                <li><a>AWS</a></li>
+                <li><a>Azure</a></li>
+                <li><a>Databases</a></li>
+                <li><a>Containers</a></li>                  
+              </ul>
+          </div> 
+          
+          <div class="col-sm">
+          <h6>Categories</h6>
+            <ul class="footer-links">               
+              <li><a>Software Development</a></li>
+              <li><a>Web Development</a></li>                 
+              <li><a>.NET Core</a></li>
+              <li><a>JavaScript</a></li>                
+              <li><a>Technology</a></li>
+            </ul>
+        </div>                 
+        </div>
+      </div>
+
+         
+        </div>
+
+        <div class="col-xs-6 col-md-3">
+          <h6>Quick Links</h6>
+          <ul class="footer-links">
+            <li><a>About Us</a></li>
+            <li><a data-link="Contact" id="lnkConactUs">Contact Us</a></li>
+            <li><a>Contribute</a></li>
+            <li><a>Privacy Policy</a></li>
+            <li><a>Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+      <hr>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8 col-sm-6 col-xs-12">
+          <p class="copyright-text">Copyright &copy; 2022 All Rights Reserved by 
+       <a href="https://hexquote.com">hexquote</a>.
+          </p>
+        </div>
+
+        <div class="col-md-4 col-sm-6 col-xs-12">
+          <ul class="social-icons">
+            <li><a class="facebook" href="https://hexquote.com"><i class="fab fa-facebook"></i></a></li>
+            <li><a class="twitter"><i class="fab fa-twitter"></i></a></li>
+            <li><a class="dribbble" href="https://hexquote.com"><i class="fab fa-dribbble"></i></a></li>
+            <li><a class="linkedin" href="https://www.linkedin.com/in/jawadhasanshani"><i class="fab fa-linkedin"></i></a></li>   
+          </ul>
+        </div>
+      </div>
+    </div>
+</footer>
+
+ <!-- App Code -->
+<script src="./index.js"></script>
 </body>
 </html>
