@@ -15,7 +15,6 @@ import "@fortawesome/fontawesome-free/css/all.css";
 
 // Import all plugins
 import * as bootstrap from 'bootstrap';
-
 // Or import only needed plugins
 //import { Tooltip as Tooltip, Toast as Toast, Popover as Popover } from 'bootstrap';
 
@@ -25,7 +24,7 @@ import './resources/bootstrap.united.css';
 //Cognito
 import { Auth } from 'aws-amplify'
 
-//configure authentication
+//configure authentication with values from your instance
 Auth.configure({
   userPoolId: 'eu-central-1_BGOou5Rwx',
   userPoolWebClientId: '6v3vnd7af1vou9a9gte9korn8q',
@@ -33,8 +32,11 @@ Auth.configure({
     region: 'eu-central-1',
     domain: 'hexquote.auth.eu-central-1.amazoncognito.com',
     scope: ['email', 'openid', 'aws.cognito.signin.user.admin', 'profile'],
-    redirectSignIn: 'http://localhost:1234',
-    redirectSignOut: 'http://localhost:1234',
+    redirectSignIn: 'https://cognito.awsclouddemos.com',
+    redirectSignOut: 'https://cognito.awsclouddemos.com',
+
+   // redirectSignIn: 'http://localhost:1234',
+   // redirectSignOut: 'http://localhost:1234',
     responseType: 'code' // 'code' or 'token', note that REFRESH token will only be generated when the responseType is code
   }
 })
@@ -50,19 +52,9 @@ function alert(message, type) {
   var alertPlaceholder = document.getElementById('liveAlertPlaceholder')
   alertPlaceholder.append(wrapper)
 }
-function displayObject(data) {
-
-
+function displayObject(data, type) {
   let payload = data && (data.message || data.title || '');
-  alert(payload, 'warning')
-
-  // Swal.fire({
-  //     title: data && (data.message || data.title || ''),
-  //     html: `<div class="text-danger" style="text-align:left">  ${JSON.stringify(data || {}, null, 6)
-  //         .replace(/\n( *)/g, function (match, p1) {
-  //             return '<br>' + '&nbsp;'.repeat(p1.length);
-  //         })}</div>`
-  // })
+  alert(payload, type || 'warning') 
 }
 
 
@@ -83,8 +75,6 @@ function onHostedUISignin() {
     displayObject(err)
   })
 }
-
-
 
 
 function setUserState(user) {
@@ -118,8 +108,8 @@ async function getCurrentUser() {
     console.error(err);
     let data = {};
     data.message = err;
-    data.title='Cognito';
-    displayObject(data);     
+    data.title='Get Current User';
+    displayObject(data, 'danger');     
     setUserState(null)   
   }
 }
@@ -146,9 +136,6 @@ $(function () {
   $('#logout-button').on('click', (e) => {   
     onLogout();
   });
-
-
-  
 
   //setup events
   document.addEventListener("DOMContentLoaded", appLoaded())
