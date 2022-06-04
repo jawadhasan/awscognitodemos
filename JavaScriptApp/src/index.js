@@ -35,8 +35,8 @@ Auth.configure({
     redirectSignIn: 'https://cognito.awsclouddemos.com',
     redirectSignOut: 'https://cognito.awsclouddemos.com',
 
-   // redirectSignIn: 'http://localhost:1234',
-   // redirectSignOut: 'http://localhost:1234',
+  // redirectSignIn: 'http://localhost:1234',
+  // redirectSignOut: 'http://localhost:1234',
     responseType: 'code' // 'code' or 'token', note that REFRESH token will only be generated when the responseType is code
   }
 })
@@ -61,10 +61,10 @@ function displayObject(data, type) {
 
 
 function onLogout() {
-
+  sessionStorage.clear();
   Auth.signOut().then(result => {
-      this.setUserState(null);
-  }).catch(err => {
+      this.setUserState(null);    
+  }).catch(err => {  
       this.displayObject(err)
   })
 }
@@ -77,29 +77,35 @@ function onHostedUISignin() {
 }
 
 
-function setUserState(user) {
-  var usernamePlaceholder = document.getElementById('username-placeholder');
-  var loginButton = document.getElementById('login-button');
-  var logoutButton = document.getElementById('logout-button');
+function setUserState(user) {  
   if (!user) {
-      usernamePlaceholder.innerHTML = ''
-      usernamePlaceholder.style.display = 'none'
-      loginButton.style.display = 'block'
-      logoutButton.style.display = 'none'
+      
+      $('#username-placeholder').hide();
+      $('#logout-button').hide();
+      $('#secure-button').hide();
+      $('#login-button').show();      
   }
   else {
-      usernamePlaceholder.innerHTML = user.username
-      usernamePlaceholder.style.display = 'block'
-      loginButton.style.display = 'none'
-      logoutButton.style.display = 'block'
+    $('#username-placeholder').show();
+    console.log('username', user.username);
+    $('#username-placeholder').text(user.username);
+    $('#logout-button').show();
+    $('#secure-button').show();
+    $('#login-button').hide();
+
+
   }
 }
 
 
 async function getCurrentUser() {
   try {
-      let currentUser = await Auth.currentAuthenticatedUser();
+    let currentUser = await Auth.currentAuthenticatedUser();
+    let jwt = currentUser.signInUserSession.getAccessToken().getJwtToken();
+     
       console.log('async getCurrentUser', currentUser);
+      console.log('jwt', jwt);
+      sessionStorage.setItem('jwt', jwt);
 
       setUserState(currentUser)
       return currentUser
@@ -113,6 +119,33 @@ async function getCurrentUser() {
     setUserState(null)   
   }
 }
+
+
+function makeAjaxRequest(httpMethod, url, data, async, cache) {
+
+  let jwt = sessionStorage.getItem('jwt');
+  console.log('jwt@session-storage:', jwt);
+
+  if (typeof async == "undefined") async = true;
+  if (typeof cache == "undefined") cache = false;
+
+  var ajaxObject = $.ajax({
+      type: httpMethod.toUpperCase(),
+      url: url,
+      data: data,
+      datatype: 'json',
+      async: async,
+      cache: cache,
+      beforeSend: function (request) {
+          request.setRequestHeader("content-type", "application/json"),
+          request.setRequestHeader('Authorization', `Bearer ${jwt}`);
+      }
+  });
+
+  return ajaxObject;
+}
+
+
 
 
 async function appLoaded() {
@@ -135,6 +168,22 @@ $(function () {
 
   $('#logout-button').on('click', (e) => {   
     onLogout();
+  });
+
+  $('#secure-button').on('click', (e) => {       
+   makeAjaxRequest('GET','https://rqjmvfm8l5.execute-api.eu-central-1.amazonaws.com/Prod/api/security/',null)
+    .done(function(data){
+      console.log(data);
+       // clear the existing list
+  $('#users .list li').remove();
+
+  $.each(data.claims, function(index,claim) {
+    $('#users .list').append('<li><span class="name">'+claim.claimType+ ' :::: ' + claim.claimValue  + '</span></li>')
+  });
+    }).fail(function(err){
+      console.log(err)
+      displayObject(err, 'danger');   
+    })
   });
 
   //setup events
